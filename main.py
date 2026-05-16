@@ -1,4 +1,4 @@
-def show_balance(balance):
+def showes(balance):
     print(f'💰 Ваш баланс: {balance} руб.')
 
 def deposit(balance):
@@ -44,26 +44,57 @@ def register(users):
 
 def bank_menu(username, balance):
     '''Меню банковских операций'''
+    bonuses = 0  # отдельный счёт бонусов
+    
     while True:
         print(f'\n🏦 Добро пожаловать, {username}!')
         print('1 - Баланс')
         print('2 - Пополнить')
         print('3 - Снять')
         print('4 - Выйти из аккаунта')
+        print('5 - Бонусы')
         
         choice = input('Выберите действие: ')
         
         if choice == '1':
-            show_balance(balance)
+            print(f'Основной баланс: {balance} руб.')
+            print(f'Бонусы: {bonuses:.2f} руб.')
         elif choice == '2':
-            balance = deposit(balance)
+            amount = int(input('Сумма пополнения: '))
+            if amount <= 0:
+                print('Сумма должна быть положительной!')
+                continue
+            bonus = amount * 0.01
+            bonuses += bonus
+            balance += amount
+            print(f'Пополнено: {amount} руб.')
+            print(f'Начислено бонусов: {bonus:.2f} руб.')
         elif choice == '3':
-            balance = withdraw(balance)
+            amount = int(input('Сумма снятия: '))
+            if amount <= 0:
+                print('Сумма должна быть положительной!')
+                continue
+            if amount > balance:
+                print('Недостаточно средств!')
+                continue
+            balance -= amount
+            print(f'Снято: {amount} руб.')
         elif choice == '4':
-            print(f'👋 До свидания, {username}!')
+            print(f'До свидания, {username}!')
             return balance
+        
+        elif choice == '5':
+            if bonuses <= 0:
+                print('У вас ещё нет бонусов!')
+                continue
+            print(f'У вас {bonuses:.2f} бонусных рублей.')
+            use = input('Использовать ваши бонусы?(да/нет): ')
+            if use.lower() == 'да':
+                balance += bonuses
+                print(f'Бонусы зачислены на ваш счёт, новый баланс составляет {balance:.2f} руб.')
+                bonuses = 0
         else:
-            print('❌ Неверный выбор!')
+            print('Неверный выбор!')
 
 def main():
     users = {'admin': 10000}  # начальный пользователь
@@ -79,8 +110,8 @@ def main():
         if choice == '1':
             username, balance = login(users)
             if username:
-                new_balance = bank_menu(username, balance)
-                users[username] = new_balance
+                newes = bank_menu(username, balance)
+                users[username] = newes
         elif choice == '2':
             users = register(users)
         elif choice == '3':
