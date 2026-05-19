@@ -1,3 +1,4 @@
+transaction_history = [0,0]
 def showes(balance):
     print(f'💰 Ваш баланс: {balance} руб.')
 
@@ -53,6 +54,7 @@ def bank_menu(username, balance):
         print('3 - Снять')
         print('4 - Выйти из аккаунта')
         print('5 - Бонусы')
+        print('6 - История операций')
         
         choice = input('Выберите действие: ')
         
@@ -69,6 +71,7 @@ def bank_menu(username, balance):
             balance += amount
             print(f'Пополнено: {amount} руб.')
             print(f'Начислено бонусов: {bonus:.2f} руб.')
+            transaction_history[0] += 1
         elif choice == '3':
             amount = int(input('Сумма снятия: '))
             if amount <= 0:
@@ -79,6 +82,7 @@ def bank_menu(username, balance):
                 continue
             balance -= amount
             print(f'Снято: {amount} руб.')
+            transaction_history[1] += 1
         elif choice == '4':
             print(f'До свидания, {username}!')
             return balance
@@ -93,6 +97,8 @@ def bank_menu(username, balance):
                 balance += bonuses
                 print(f'Бонусы зачислены на ваш счёт, новый баланс составляет {balance:.2f} руб.')
                 bonuses = 0
+        elif choice == '6':
+            print(f'Количество пополнений: {transaction_history[0]}\nКоличество снятий: {transaction_history[1]}')
         else:
             print('Неверный выбор!')
 
